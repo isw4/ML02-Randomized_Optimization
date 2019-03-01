@@ -19,11 +19,12 @@ public class TravelingSalesmanSortEvaluationFunction extends TravelingSalesmanEv
     public TravelingSalesmanSortEvaluationFunction(double[][] points) {
         super(points);
     }
-	public long fevals;
+
     /**
      * @see opt.EvaluationFunction#value(opt.OptimizationData)
      */
     public double value(Instance d) {
+        this.fevals = this.fevals + 1;
         double[] ddata = new double[d.size()];
         for (int i = 0; i < ddata.length; i++) {
             ddata[i] = d.getContinuous(i);

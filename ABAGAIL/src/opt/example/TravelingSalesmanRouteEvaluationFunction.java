@@ -19,11 +19,12 @@ public class TravelingSalesmanRouteEvaluationFunction extends TravelingSalesmanE
     public TravelingSalesmanRouteEvaluationFunction(double[][] points) {
         super(points);
     }
-	public long fevals;
+
     /**
      * @see opt.EvaluationFunction#value(opt.OptimizationData)
      */
     public double value(Instance d) {
+        this.fevals = this.fevals + 1;
         double distance = 0;
         for (int i = 0; i < d.size() - 1; i++) {
             distance += getDistance(d.getDiscrete(i), d.getDiscrete(i+1));

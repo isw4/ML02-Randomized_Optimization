@@ -13,7 +13,12 @@ import shared.Instance;
  * @version 1.0
  */
 public class NeuralNetworkEvaluationFunction implements EvaluationFunction {
-    /**
+    /*
+    * The number of function evaluations done. Increments every time the value() function is called
+    */
+	public long fevals;
+
+	/**
      * The network
      */
     private NeuralNetwork network;
@@ -34,6 +39,7 @@ public class NeuralNetworkEvaluationFunction implements EvaluationFunction {
      */
     public NeuralNetworkEvaluationFunction(NeuralNetwork network,
             DataSet examples, ErrorMeasure measure) {
+        this.fevals = 0;
         this.network = network;
         this.examples = examples;
         this.measure = measure;
@@ -43,6 +49,7 @@ public class NeuralNetworkEvaluationFunction implements EvaluationFunction {
      * @see opt.OptimizationProblem#value(opt.OptimizationData)
      */
     public double value(Instance d) {
+        this.fevals = this.fevals + 1;
         // set the links
         Vector weights = d.getData();
         network.setWeights(weights);

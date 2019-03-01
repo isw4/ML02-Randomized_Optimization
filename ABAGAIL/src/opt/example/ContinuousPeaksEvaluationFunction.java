@@ -10,11 +10,15 @@ import shared.Instance;
  * @version 1.0
  */
 public class ContinuousPeaksEvaluationFunction implements EvaluationFunction {
-    /**
+    /*
+    * The number of function evaluations done. Increments every time the value() function is called
+    */
+	public long fevals;
+
+	/**
      * The t value
      */
     private int t;
-	public long fevals;
     
     /**
      * Make a new continuous peaks function
@@ -22,12 +26,14 @@ public class ContinuousPeaksEvaluationFunction implements EvaluationFunction {
      */
     public ContinuousPeaksEvaluationFunction(int t) {
         this.t = t;
+        this.fevals = 0;
     }
 
     /**
      * @see opt.EvaluationFunction#value(opt.OptimizationData)
      */
     public double value(Instance d) {
+        this.fevals = this.fevals + 1;
         Vector data = d.getData();
         int max0 = 0;
         int count = 0;
@@ -57,7 +63,6 @@ public class ContinuousPeaksEvaluationFunction implements EvaluationFunction {
         if (max1 > t && max0 > t) {
             r = data.size();
         }
-		this.fevals = this.fevals +1;
         return Math.max(max1, max0) + r;
     }
 }

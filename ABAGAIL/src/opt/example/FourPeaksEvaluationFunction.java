@@ -10,7 +10,12 @@ import shared.Instance;
  * @version 1.0
  */
 public class FourPeaksEvaluationFunction implements EvaluationFunction {
-    /**
+    /*
+    * The number of function evaluations done. Increments every time the value() function is called
+    */
+	public long fevals;
+
+	/**
      * The t value
      */
     private int t;
@@ -20,6 +25,7 @@ public class FourPeaksEvaluationFunction implements EvaluationFunction {
      * @param t the t value
      */
     public FourPeaksEvaluationFunction(int t) {
+        this.fevals = 0;
         this.t = t;
     }
 
@@ -27,6 +33,7 @@ public class FourPeaksEvaluationFunction implements EvaluationFunction {
      * @see opt.EvaluationFunction#value(opt.OptimizationData)
      */
     public double value(Instance d) {
+        this.fevals = this.fevals + 1;
         Vector data = d.getData();
         int i = 0;
         while (i < data.size() && data.get(i) == 1) {

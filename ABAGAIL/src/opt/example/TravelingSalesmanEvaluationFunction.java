@@ -8,16 +8,22 @@ import opt.EvaluationFunction;
  * @version 1.0
  */
 public abstract class TravelingSalesmanEvaluationFunction implements EvaluationFunction {
-    /**
+    /*
+    * The number of function evaluations done. Increments every time the value() function is called
+    */
+	public long fevals;
+
+	/**
      * The distance between city i and j
      */
     private double[][] distances;
-	public long fevals;
+
     /**
      * Make a new traveling salesman  evaluation function
      * @param points the points at which the cities are located
      */
     public TravelingSalesmanEvaluationFunction(double[][] points) {
+        this.fevals = 0;
         distances = new double[points.length][];
         for (int i = 0; i < points.length; i++) {
             distances[i] = new double[i];
