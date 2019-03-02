@@ -15,9 +15,9 @@ def all_trials_knap_rhc():
 
 	plt.figure()
 	plt.title("RHC for knapsack problem")
-	x = df[0].loc[:80, 'iterations']
+	x = df[0].loc[:, 'iterations']
 	for i in range(0, 5):
-		y = df[i].loc[:80, 'fitness']
+		y = df[i].loc[:, 'fitness']
 		plt.plot(x, y)
 
 
@@ -34,9 +34,9 @@ def all_trials_knap_sa():
 
 		plt.figure()
 		plt.title("SA with cooling multipler {} for knapsack problem".format(cooling_mult))
-		x = df[0].loc[:80, 'iterations']
+		x = df[0].loc[:, 'iterations']
 		for i in range(0, 5):
-			y = df[i].loc[:80, 'fitness']
+			y = df[i].loc[:, 'fitness']
 			plt.plot(x, y)
 
 
@@ -62,9 +62,9 @@ def best_trials_knap_sa():
 
 	plt.figure()
 	plt.title("Best trial for each SA using different cooling multipliers for knapsack problem")
-	x = best[0].loc[:80, 'iterations']
+	x = best[0].loc[:, 'iterations']
 	for i in range(0, 5):
-		y = best[i].loc[:80, 'fitness']
+		y = best[i].loc[:, 'fitness']
 		plt.plot(x, y, label=str(cooling_mult[i]))
 	plt.legend()
 
@@ -82,9 +82,9 @@ def all_trials_knap_ga():
 
 		plt.figure()
 		plt.title("GA with population {} for knapsack problem".format(pop))
-		x = df[0].loc[:200, 'iterations']
+		x = df[0].loc[:, 'iterations']
 		for i in range(0, 5):
-			y = df[i].loc[:200, 'fitness']
+			y = df[i].loc[:, 'fitness']
 			plt.plot(x, y)
 
 
@@ -111,9 +111,9 @@ def best_trials_knap_ga():
 
 	plt.figure()
 	plt.title("Best trial for each GA using different population/mate/mutate numbers for knapsack problem")
-	x = best[0].loc[:200, 'iterations']
+	x = best[0].loc[:, 'iterations']
 	for i in range(0, len(param_str)):
-		y = best[i].loc[:200, 'fitness']
+		y = best[i].loc[:, 'fitness']
 		plt.plot(x, y, label=param_str[i])
 	plt.legend()
 
@@ -131,9 +131,9 @@ def all_trials_knap_mimic():
 
 		plt.figure()
 		plt.title("MIMIC with population {} for knapsack problem".format(samples))
-		x = df[0].loc[:20, 'iterations']
+		x = df[0].loc[:, 'iterations']
 		for i in range(0, 5):
-			y = df[i].loc[:20, 'fitness']
+			y = df[i].loc[:, 'fitness']
 			plt.plot(x, y)
 
 
@@ -160,9 +160,9 @@ def best_trials_knap_mimic():
 
 	plt.figure()
 	plt.title("Best trial for each MIMIC using different sample/keep numbers for knapsack problem")
-	x = best[0].loc[:20, 'iterations']
+	x = best[0].loc[:, 'iterations']
 	for i in range(0, len(param_str)):
-		y = best[i].loc[:20, 'fitness']
+		y = best[i].loc[:, 'fitness']
 		plt.plot(x, y, label=param_str[i])
 	plt.legend()
 
