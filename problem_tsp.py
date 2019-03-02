@@ -66,132 +66,135 @@ def optimize(n_vertices=100):
 		points[i][0] = random.nextDouble()
 		points[i][1] = random.nextDouble()
 
+
 	ef = TravelingSalesmanRouteEvaluationFunction(points)
 	odd = DiscretePermutationDistribution(N)
 	nf = SwapNeighbor()
 	mf = SwapMutation()
 	cf = TravelingSalesmanCrossOver(ef)
+	hcp = GenericHillClimbingProblem(ef, odd, nf)
 	gap = GenericGeneticAlgorithmProblem(ef, odd, mf, cf)
+	pop = GenericProbabilisticOptimizationProblem(ef, odd, df)
 
 
 	# Randomized Hill Climbing
-	# print("Running hill climbing...")
-	# max_iters = 40000
-	# for t in range(num_trials):
-	# 	# For each trial, open a file to log the data
-	# 	fname = outfile.replace('@ALG@', 'RHC').replace('@N@', str(t+1))
-	# 	with open(fname, 'w') as f:
-	# 		f.write('iterations,fitness,time,fevals\n')
-	#
-	# 	# Reinitialize problems per trial
-	# 	ef = TravelingSalesmanRouteEvaluationFunction(points)
-	# 	odd = DiscretePermutationDistribution(N)
-	# 	nf = SwapNeighbor()
-	# 	hcp = GenericHillClimbingProblem(ef, odd, nf)
-	# 	rhc = RandomizedHillClimbing(hcp)
-	#
-	# 	# Iterate, logging every 10 steps
-	# 	fit = FixedIterationTrainer(rhc, 10)
-	# 	cum_elapsed = 0
-	# 	for i in range(0, max_iters + 1, 10):
-	# 		# Train 10 iterations and clock time
-	# 		start = clock()
-	# 		fit.train()
-	# 		elapsed = clock() - start
-	# 		cum_elapsed += elapsed
-	#
-	# 		fevals = ef.fevals                  # Number of function evaluations
-	# 		score = ef.value(rhc.getOptimal())  # Fitness score
-	# 		ef.fevals -= 1                      # Reducing by one because getting the score counts as an eval
-	#
-	# 		# Logging
-	# 		st = '{},{},{},{}\n'.format(i, score, cum_elapsed, fevals)
-	# 		# print st
-	# 		with open(fname, 'a') as f:
-	# 			f.write(st)
+	print("Running hill climbing...")
+	max_iters = 40000
+	for t in range(num_trials):
+		# For each trial, open a file to log the data
+		fname = outfile.replace('@ALG@', 'RHC').replace('@N@', str(t+1))
+		with open(fname, 'w') as f:
+			f.write('iterations,fitness,time,fevals\n')
+
+		# Reinitialize problems per trial
+		ef = TravelingSalesmanRouteEvaluationFunction(points)
+		odd = DiscretePermutationDistribution(N)
+		nf = SwapNeighbor()
+		hcp = GenericHillClimbingProblem(ef, odd, nf)
+		rhc = RandomizedHillClimbing(hcp)
+
+		# Iterate, logging every 10 steps
+		fit = FixedIterationTrainer(rhc, 10)
+		cum_elapsed = 0
+		for i in range(0, max_iters + 1, 10):
+			# Train 10 iterations and clock time
+			start = clock()
+			fit.train()
+			elapsed = clock() - start
+			cum_elapsed += elapsed
+
+			fevals = ef.fevals                  # Number of function evaluations
+			score = ef.value(rhc.getOptimal())  # Fitness score
+			ef.fevals -= 1                      # Reducing by one because getting the score counts as an eval
+
+			# Logging
+			st = '{},{},{},{}\n'.format(i, score, cum_elapsed, fevals)
+			# print st
+			with open(fname, 'a') as f:
+				f.write(st)
 
 
 	# Simulated Annealing
-	# print("Running simulated annealing...")
-	# max_iters = 40000
-	# for t in range(num_trials):
-	# 	# Each iteration, the temp is cooled by the eqn T *= cooling_mult
-	# 	for cooling_mult in [0.15, 0.35, 0.55, 0.75, 0.95]:
-	# 		# For each trial, open a file to log the data
-	# 		fname = outfile.replace('@ALG@','SA{}'.format(cooling_mult)).replace('@N@',str(t+1))
-	# 		with open(fname,'w') as f:
-	# 			f.write('iterations,fitness,time,fevals\n')
-	#
-	# 		# Reinitialize problems per trial
-	# 		ef = TravelingSalesmanRouteEvaluationFunction(points)
-	# 		odd = DiscretePermutationDistribution(N)
-	# 		nf = SwapNeighbor()
-	# 		hcp = GenericHillClimbingProblem(ef, odd, nf)
-	# 		sa = SimulatedAnnealing(1E10, cooling_mult, hcp)
-	#
-	# 		# Iterate, logging every 10 steps
-	# 		fit = FixedIterationTrainer(sa, 10)
-	# 		cum_elapsed = 0
-	# 		for i in range(0, max_iters + 1, 10):
-	# 			# Train 10 iterations and clock time
-	# 			start = clock()
-	# 			fit.train()
-	# 			elapsed = clock()-start
-	# 			cum_elapsed += elapsed
-	#
-	# 			fevals = ef.fevals  # Number of function evaluations
-	# 			score = ef.value(sa.getOptimal())  # Fitness score
-	# 			ef.fevals -= 1  # Reducing by one because getting the score counts as an eval
-	#
-	# 			# Logging
-	# 			st = '{},{},{},{}\n'.format(i, score, cum_elapsed, fevals)
-	# 			# print st
-	# 			with open(fname, 'a') as f:
-	# 				f.write(st)
+	print("Running simulated annealing...")
+	max_iters = 40000
+	for t in range(num_trials):
+		# Each iteration, the temp is cooled by the eqn T *= cooling_mult
+		for cooling_mult in [0.15, 0.35, 0.55, 0.75, 0.95]:
+			# For each trial, open a file to log the data
+			fname = outfile.replace('@ALG@','SA{}'.format(cooling_mult)).replace('@N@',str(t+1))
+			with open(fname,'w') as f:
+				f.write('iterations,fitness,time,fevals\n')
+
+			# Reinitialize problems per trial
+			ef = TravelingSalesmanRouteEvaluationFunction(points)
+			odd = DiscretePermutationDistribution(N)
+			nf = SwapNeighbor()
+			hcp = GenericHillClimbingProblem(ef, odd, nf)
+			sa = SimulatedAnnealing(1E10, cooling_mult, hcp)
+
+			# Iterate, logging every 10 steps
+			fit = FixedIterationTrainer(sa, 10)
+			cum_elapsed = 0
+			for i in range(0, max_iters + 1, 10):
+				# Train 10 iterations and clock time
+				start = clock()
+				fit.train()
+				elapsed = clock()-start
+				cum_elapsed += elapsed
+
+				fevals = ef.fevals  # Number of function evaluations
+				score = ef.value(sa.getOptimal())  # Fitness score
+				ef.fevals -= 1  # Reducing by one because getting the score counts as an eval
+
+				# Logging
+				st = '{},{},{},{}\n'.format(i, score, cum_elapsed, fevals)
+				# print st
+				with open(fname, 'a') as f:
+					f.write(st)
 
 
 	# Genetic Algorithms
-	# print("Running genetic algorithms...")
-	# max_iters = 10000
-	# for t in range(num_trials):
-	# 	# pop: number in population
-	# 	# mate: number in population to mate
-	# 	# mutate: number in population to mutate
-	# 	for pop in [100, 500, 1000]:
-	# 		mate = int(0.5 * pop)
-	# 		mutate = int(0.1 * pop)
-	# 		# For each trial, open a file to log the data
-	# 		fname = outfile.replace('@ALG@','GA{}'.format(pop)).replace('@N@', str(t+1))
-	# 		with open(fname, 'w') as f:
-	# 			f.write('iterations,fitness,time,fevals\n')
-	#
-	# 		# Reinitialize problems per trial
-	# 		ef = TravelingSalesmanRouteEvaluationFunction(points)
-	# 		odd = DiscretePermutationDistribution(N)
-	# 		mf = SwapMutation()
-	# 		cf = TravelingSalesmanCrossOver(ef)
-	# 		gap = GenericGeneticAlgorithmProblem(ef, odd, mf, cf)
-	# 		ga = StandardGeneticAlgorithm(pop, mate, mutate, gap)
-	#
-	# 		# Iterate, logging every 10 steps
-	# 		fit = FixedIterationTrainer(ga, 10)
-	# 		cum_elapsed = 0
-	# 		for i in range(0, max_iters + 1, 10):
-	# 			# Train 10 iterations and clock time
-	# 			start = clock()
-	# 			fit.train()
-	# 			elapsed = clock()-start
-	# 			cum_elapsed += elapsed
-	#
-	# 			fevals = ef.fevals                  # Number of function evaluations
-	# 			score = ef.value(ga.getOptimal())   # Fitness score
-	# 			ef.fevals -= 1                      # Reducing by one because getting the score counts as an eval
-	#
-	# 			# Logging
-	# 			st = '{},{},{},{}\n'.format(i, score, cum_elapsed, fevals)
-	# 			# print st
-	# 			with open(fname, 'a') as f:
-	# 				f.write(st)
+	print("Running genetic algorithms...")
+	max_iters = 10000
+	for t in range(num_trials):
+		# pop: number in population
+		# mate: number in population to mate
+		# mutate: number in population to mutate
+		for pop in [100, 500, 1000]:
+			mate = int(0.5 * pop)
+			mutate = int(0.1 * pop)
+			# For each trial, open a file to log the data
+			fname = outfile.replace('@ALG@','GA{}'.format(pop)).replace('@N@', str(t+1))
+			with open(fname, 'w') as f:
+				f.write('iterations,fitness,time,fevals\n')
+
+			# Reinitialize problems per trial
+			ef = TravelingSalesmanRouteEvaluationFunction(points)
+			odd = DiscretePermutationDistribution(N)
+			mf = SwapMutation()
+			cf = TravelingSalesmanCrossOver(ef)
+			gap = GenericGeneticAlgorithmProblem(ef, odd, mf, cf)
+			ga = StandardGeneticAlgorithm(pop, mate, mutate, gap)
+
+			# Iterate, logging every 10 steps
+			fit = FixedIterationTrainer(ga, 10)
+			cum_elapsed = 0
+			for i in range(0, max_iters + 1, 10):
+				# Train 10 iterations and clock time
+				start = clock()
+				fit.train()
+				elapsed = clock()-start
+				cum_elapsed += elapsed
+
+				fevals = ef.fevals                  # Number of function evaluations
+				score = ef.value(ga.getOptimal())   # Fitness score
+				ef.fevals -= 1                      # Reducing by one because getting the score counts as an eval
+
+				# Logging
+				st = '{},{},{},{}\n'.format(i, score, cum_elapsed, fevals)
+				# print st
+				with open(fname, 'a') as f:
+					f.write(st)
 
 
 	#MIMIC
