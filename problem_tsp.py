@@ -236,3 +236,5 @@ def optimize(n_vertices=100):
 				# print st
 				with open(fname, 'a') as f:
 					f.write(st)
+
+	print("...Complete")
