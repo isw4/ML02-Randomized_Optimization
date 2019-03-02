@@ -330,4 +330,3 @@ if __name__ == "__main__":
 	all_trials_knap_mimic(save)
 	best_trials_knap_mimic(save)
 	best_knap_opt(save)
-	plt.show()

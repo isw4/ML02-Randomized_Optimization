@@ -318,6 +318,7 @@ def best_count_opt(save=False):
 	if save:
 		plt.savefig("./graphs/COUNT_FIT_TIME.png", dpi=300)
 
+
 if __name__ == "__main__":
 	save = True
 	all_trials_count_rhc(save)
@@ -328,4 +329,3 @@ if __name__ == "__main__":
 	all_trials_count_mimic(save)
 	best_trials_count_mimic(save)
 	best_count_opt(save)
-	plt.show()
