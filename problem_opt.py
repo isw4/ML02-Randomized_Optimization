@@ -20,7 +20,7 @@ if __name__ == '__main__':
 		pass
 
 	elif command == 'knapsack':
-		pass
+		problem_knapsack.optimize()
 
 	else:
 		print("Invalid command")
