@@ -3,6 +3,10 @@ import os
 from time import clock
 from itertools import product
 
+with open("ABAGAIL_absolute_path.txt") as f:    # Importing ABAGAIL.jar
+	abagail_filepath = f.readline()
+sys.path.append(abagail_filepath)
+
 import java.io.FileReader as FileReader
 import java.io.File as File
 import java.lang.String as String
