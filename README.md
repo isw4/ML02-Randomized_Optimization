@@ -1,14 +1,26 @@
 ### CS 7641 Assignment 2 - Randomized Optimization
 
-Code and data can be found at: https://github.gatech.edu/iwong30/ML02-Randomized_Optimization
+Code and data can be found at: https://github.com/iwong30/ML02-Randomized_Optimization
+
+ABAGAIL library modified and built from: https://github.com/pushkar/ABAGAIL
 
 ## Directories
-src/        Contains the source code  
 data/       Contains the raw and cleaned csv data files, along with some description of each set  
-graphs/     Contains graphs that are output by the various experiments
+graphs/     Contains graphs that are output by the various experiments  
+COUNT_logs/ Contains the logs of the count ones problem optimizations in csv  
+KNAP_logs/  Contains the logs of the knapsack problem optimizations in csv  
+TSP_logs/   Contains the logs of the traveling salesman problem optimizations in csv  
+ABAGAIL/    Contains the ABAGAIL src and jar files (minor edits made from the original source)
 
 
-## Setup
+## Setup to run the experiments
+
+1)  Make sure to have JDK installed (jdk11: https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html)
+
+2)  Make sure to have jython installed (https://www.jython.org/)
+
+
+## Setup to plot the data from the logs
 
 1)  Make sure to have Conda installed
 
@@ -20,12 +32,12 @@ graphs/     Contains graphs that are output by the various experiments
 3)  Activate the environment:
     If using Windows, open the Anaconda prompt and enter:
     ~~~
-    activate homework2
+    activate Homework2
     ~~~
 
     If using Mac or Linux, open the terminal and enter:
     ~~~
-    source activate homework2
+    source activate Homework2
     ~~~
 
 
