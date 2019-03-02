@@ -221,3 +221,7 @@ def optimize(n_bits=100):
 					f.write(st)
 
 	print("...Complete")
+
+
+if __name__ == '__main__':
+	optimize()

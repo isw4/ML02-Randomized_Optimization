@@ -246,3 +246,7 @@ def optimize(n_items=40, copies_each=4, max_weight=50, max_vol=50):
 					f.write(st)
 
 	print("...Complete")
+
+
+if __name__ == '__main__':
+	optimize()

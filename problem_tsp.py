@@ -238,3 +238,7 @@ def optimize(n_vertices=100):
 					f.write(st)
 
 	print("...Complete")
+
+
+if __name__ == '__main__':
+	optimize()
