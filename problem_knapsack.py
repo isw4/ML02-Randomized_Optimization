@@ -1,6 +1,6 @@
 import sys
 import os
-import time
+from time import clock
 from array import array
 
 with open("ABAGAIL_absolute_path.txt") as f:    # Importing ABAGAIL.jar
@@ -108,20 +108,32 @@ def optimize(n_items=40, copies_each=4, max_weight=50, max_vol=50):
 		cum_elapsed = 0
 		for i in range(0, max_iters + 1, 10):
 			# Train 10 iterations and clock time
+			start = clock()
 			fit.train()
-			print "RHC: " + str(ef.value(rhc.getOptimal()))
+			elapsed = clock() - start
+			cum_elapsed += elapsed
 
-	sa = SimulatedAnnealing(100, .95, hcp)
-	fit = FixedIterationTrainer(sa, 200000)
-	fit.train()
-	print "SA: " + str(ef.value(sa.getOptimal()))
+			fevals = ef.fevals                  # Number of function evaluations
+			score = ef.value(rhc.getOptimal())  # Fitness score
+			ef.fevals -= 1                      # Reducing by one because getting the score counts as an eval
 
-	ga = StandardGeneticAlgorithm(200, 150, 25, gap)
-	fit = FixedIterationTrainer(ga, 1000)
-	fit.train()
-	print "GA: " + str(ef.value(ga.getOptimal()))
+			# Logging
+			st = '{},{},{},{}\n'.format(i, score, cum_elapsed, fevals)
+			# print st
+			with open(fname, 'a') as f:
+				f.write(st)
 
-	mimic = MIMIC(200, 100, pop)
-	fit = FixedIterationTrainer(mimic, 1000)
-	fit.train()
-	print "MIMIC: " + str(ef.value(mimic.getOptimal()))
+	# sa = SimulatedAnnealing(100, .95, hcp)
+	# fit = FixedIterationTrainer(sa, 200000)
+	# fit.train()
+	# print "SA: " + str(ef.value(sa.getOptimal()))
+	#
+	# ga = StandardGeneticAlgorithm(200, 150, 25, gap)
+	# fit = FixedIterationTrainer(ga, 1000)
+	# fit.train()
+	# print "GA: " + str(ef.value(ga.getOptimal()))
+	#
+	# mimic = MIMIC(200, 100, pop)
+	# fit = FixedIterationTrainer(mimic, 1000)
+	# fit.train()
+	# print "MIMIC: " + str(ef.value(mimic.getOptimal()))

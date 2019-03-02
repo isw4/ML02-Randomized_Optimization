@@ -1,6 +1,5 @@
 import sys
 import os
-import time
 from time import clock
 from itertools import product
 from array import array
@@ -98,7 +97,7 @@ def optimize(n_vertices=100):
 	# 		# Train 10 iterations and clock time
 	# 		start = clock()
 	# 		fit.train()
-	# 		elapsed = time.clock() - start
+	# 		elapsed = clock() - start
 	# 		cum_elapsed += elapsed
 	#
 	# 		fevals = ef.fevals                  # Number of function evaluations
@@ -137,7 +136,7 @@ def optimize(n_vertices=100):
 	# 			# Train 10 iterations and clock time
 	# 			start = clock()
 	# 			fit.train()
-	# 			elapsed = time.clock()-start
+	# 			elapsed = clock()-start
 	# 			cum_elapsed += elapsed
 	#
 	# 			fevals = ef.fevals  # Number of function evaluations
@@ -181,7 +180,7 @@ def optimize(n_vertices=100):
 	# 			# Train 10 iterations and clock time
 	# 			start = clock()
 	# 			fit.train()
-	# 			elapsed = time.clock()-start
+	# 			elapsed = clock()-start
 	# 			cum_elapsed += elapsed
 	#
 	# 			fevals = ef.fevals                  # Number of function evaluations
@@ -222,7 +221,7 @@ def optimize(n_vertices=100):
 				# Train 10 iterations and clock time
 				start = clock()
 				fit.train()
-				elapsed = time.clock()-start
+				elapsed = clock()-start
 				cum_elapsed += elapsed
 
 				fevals = ef.fevals                      # Number of function evaluations
