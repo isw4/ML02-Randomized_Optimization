@@ -3,11 +3,13 @@ import pandas as pd
 from itertools import product
 
 
-def all_trials_knap_rhc():
+def all_trials_knap_rhc(save=False):
 	"""
 	Plotting fitness vs iterations in all trials for the TSP problem using RHC
 	"""
 	gen_path = '.\KNAP_logs\KNAP_RHC_@TRIAL@_LOG.txt'
+	save_path = './graphs/KNAP_RHC.png'
+
 	df = [0 for _ in range(0, 5)]
 	for i in range(0, 5):
 		filepath = gen_path.replace("@TRIAL@", str(i + 1))
@@ -20,12 +22,17 @@ def all_trials_knap_rhc():
 		y = df[i].loc[:, 'fitness']
 		plt.plot(x, y)
 
+	if save:
+		plt.savefig(save_path, dpi=300)
 
-def all_trials_knap_sa():
+
+def all_trials_knap_sa(save=False):
 	"""
 	Plotting fitness vs iterations in all trials for the TSP problem using SA
 	"""
 	gen_path = '.\KNAP_logs\KNAP_SA@COOLING@_@TRIAL@_LOG.txt'
+	save_path = './graphs/KNAP_SA@COOLING@.png'
+
 	for cooling_mult in [0.15, 0.35, 0.55, 0.75, 0.95]:
 		df = [0 for _ in range(0, 5)]
 		for i in range(0, 5):
@@ -39,13 +46,18 @@ def all_trials_knap_sa():
 			y = df[i].loc[:, 'fitness']
 			plt.plot(x, y)
 
+		if save:
+			plt.savefig(save_path.replace('@COOLING@', str(cooling_mult)), dpi=300)
 
-def best_trials_knap_sa():
+
+def best_trials_knap_sa(save=False):
 	"""
 	Plotting fitness vs iterations in the best trials for each cooling multiplier
 	for the TSP problem using SA
 	"""
 	gen_path = '.\KNAP_logs\KNAP_SA@COOLING@_@TRIAL@_LOG.txt'
+	save_path = './graphs/KNAP_SA.png'
+
 	best = []
 	cooling_mult = [0.15, 0.35, 0.55, 0.75, 0.95]
 	for k in range(0, len(cooling_mult)):
@@ -68,12 +80,17 @@ def best_trials_knap_sa():
 		plt.plot(x, y, label=str(cooling_mult[i]))
 	plt.legend()
 
+	if save:
+		plt.savefig(save_path, dpi=300)
 
-def all_trials_knap_ga():
+
+def all_trials_knap_ga(save=False):
 	"""
 	Plotting fitness vs iterations in all trials for the TSP problem using GA
 	"""
 	gen_path = '.\KNAP_logs\KNAP_GA@PAR@_@TRIAL@_LOG.txt'
+	save_path = './graphs/KNAP_GA@PAR@.png'
+
 	for pop in [100, 200, 400, 600, 1000]:
 		df = [0 for _ in range(0, 5)]
 		for i in range(0, 5):
@@ -87,13 +104,18 @@ def all_trials_knap_ga():
 			y = df[i].loc[:, 'fitness']
 			plt.plot(x, y)
 
+		if save:
+			plt.savefig(save_path.replace('@PAR@', "{}".format(pop)), dpi=300)
 
-def best_trials_knap_ga():
+
+def best_trials_knap_ga(save=False):
 	"""
 	Plotting fitness vs iterations in the best trials for each param set
 	for the TSP problem using GA
 	"""
 	gen_path = '.\KNAP_logs\KNAP_GA@PAR@_@TRIAL@_LOG.txt'
+	save_path = './graphs/KNAP_GA.png'
+
 	best = []
 	param_str = []
 	for pop in [100, 200, 400, 600, 1000]:
@@ -117,12 +139,17 @@ def best_trials_knap_ga():
 		plt.plot(x, y, label=param_str[i])
 	plt.legend()
 
+	if save:
+		plt.savefig(save_path, dpi=300)
 
-def all_trials_knap_mimic():
+
+def all_trials_knap_mimic(save=False):
 	"""
 	Plotting fitness vs iterations in all trials for the TSP problem using MIMIC
 	"""
 	gen_path = '.\KNAP_logs\KNAP_MIMIC@PAR@_@TRIAL@_LOG.txt'
+	save_path = './graphs/KNAP_MIMIC@PAR@.png'
+
 	for samples in [200, 400, 600, 800, 1000]:
 		df = [0 for _ in range(0, 5)]
 		for i in range(0, 5):
@@ -136,13 +163,18 @@ def all_trials_knap_mimic():
 			y = df[i].loc[:, 'fitness']
 			plt.plot(x, y)
 
+		if save:
+			plt.savefig(save_path.replace("@PAR@", "{}".format(samples)), dpi=300)
 
-def best_trials_knap_mimic():
+
+def best_trials_knap_mimic(save=False):
 	"""
 	Plotting fitness vs iterations in the best trials for each param set
 	for the TSP problem using MIMIC
 	"""
 	gen_path = '.\KNAP_logs\KNAP_MIMIC@PAR@_@TRIAL@_LOG.txt'
+	save_path = './graphs/KNAP_MIMIC.png'
+
 	best = []
 	param_str = []
 	for samples in [200, 400, 600, 800, 1000]:
@@ -166,8 +198,11 @@ def best_trials_knap_mimic():
 		plt.plot(x, y, label=param_str[i])
 	plt.legend()
 
+	if save:
+		plt.savefig(save_path, dpi=300)
 
-def best_knap_opt():
+
+def best_knap_opt(save=False):
 	"""
 	Plotting the best trials between all algorithms:
 	fitness vs iterations
@@ -219,8 +254,6 @@ def best_knap_opt():
 				best_fitness = df[i]['fitness'].iloc[-1]
 				best_df[2] = df[i]
 				labels[2] = "GA_{}".format(par)
-				print(best_fitness)
-				print(labels[2])
 
 	# Best MIMIC
 	gen_path = '.\KNAP_logs\KNAP_MIMIC@PAR@_@TRIAL@_LOG.txt'
@@ -239,29 +272,62 @@ def best_knap_opt():
 
 	# Fitness vs Iteration
 	plt.figure()
-	plt.title("Fitness vs Iterations of each algorithm for TSP")
+	plt.title("Fitness vs Iterations of each algorithm for knapsack problem")
 	for i in range(0, 4):
 		x = best_df[i]['iterations']
 		y = best_df[i]['fitness']
 		plt.plot(x, y, label=labels[i])
 	plt.legend()
+	if save:
+		plt.savefig('./graphs/KNAP_FIT_ITER.png', dpi=300)
 
-	# Function Evaluations vs Iterations
-	# plt.figure()
-	# plt.title("Fitness vs Iterations of each algorithm for TSP")
-	# x = best_df[0].loc[:, 'iterations']
-	# for i in range(0, 4):
-	# 	y = best_df[i].loc[:, 'fitness']
-	# 	plt.plot(x, y, label=labels[i])
-	# plt.legend()
+	# Fitness vs Function Evaluations
+	plt.figure()
+	plt.title("Fitness vs Function Evaluations of each algorithm for knapsack problem")
+	x = best_df[0]['fevals']
+	y = best_df[0]['fitness']
+	plt.plot(x, y, label=labels[0])
+	x = best_df[1]['fevals']
+	y = best_df[1]['fitness']
+	plt.plot(x, y, label=labels[1])
+	x = best_df[2]['fevals'].iloc[:5]
+	y = best_df[2]['fitness'].iloc[:5]
+	plt.plot(x, y, label=labels[2])
+	x = best_df[3]['fevals'].iloc[:3]
+	y = best_df[3]['fitness'].iloc[:3]
+	plt.plot(x, y, label=labels[3])
+	plt.legend()
+	if save:
+		plt.savefig('./graphs/KNAP_FIT_EVALS.png', dpi=300)
+
+	# Fitness vs Time
+	plt.figure()
+	plt.title("Fitness vs Time of each algorithm for knapsack problem")
+	x = best_df[0]['time']
+	y = best_df[0]['fitness']
+	plt.plot(x, y, label=labels[0])
+	x = best_df[1]['time']
+	y = best_df[1]['fitness']
+	plt.plot(x, y, label=labels[1])
+	x = best_df[2]['time'].iloc[:30]
+	y = best_df[2]['fitness'].iloc[:30]
+	plt.plot(x, y, label=labels[2])
+	x = best_df[3]['time'].iloc[:2]
+	y = best_df[3]['fitness'].iloc[:2]
+	plt.plot(x, y, label=labels[3])
+	plt.legend()
+	if save:
+		plt.savefig('./graphs/KNAP_FIT_TIME.png', dpi=300)
+
 
 if __name__ == "__main__":
-	# all_trials_knap_rhc()
-	# best_trials_knap_sa()
-	# all_trials_knap_sa()
-	# all_trials_knap_ga()
-	# best_trials_knap_ga()
-	# all_trials_knap_mimic()
-	# best_trials_knap_mimic()
-	best_knap_opt()
+	save = True
+	all_trials_knap_rhc(save)
+	best_trials_knap_sa(save)
+	all_trials_knap_sa(save)
+	all_trials_knap_ga(save)
+	best_trials_knap_ga(save)
+	all_trials_knap_mimic(save)
+	best_trials_knap_mimic(save)
+	best_knap_opt(save)
 	plt.show()
