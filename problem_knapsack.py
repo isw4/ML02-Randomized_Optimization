@@ -40,7 +40,7 @@ import shared.FixedIterationTrainer as FixedIterationTrainer
 import opt.example.KnapsackEvaluationFunction as KnapsackEvaluationFunction
 
 
-def optimize(n_items=40, copies_each=4, max_weight=50, max_vol=50):
+def optimize(n_items=100, copies_each=4, max_weight=100, max_vol=100):
 	random = Random()
 	# Setting the problem definition
 	# The number of items
@@ -70,8 +70,8 @@ def optimize(n_items=40, copies_each=4, max_weight=50, max_vol=50):
 	weights = array('d', fill)
 	volumes = array('d', fill)
 	for i in range(0, NUM_ITEMS):
-		weights[i] = random.nextDouble() * MAX_WEIGHT
-		volumes[i] = random.nextDouble() * MAX_VOLUME
+		weights[i] = int(random.nextDouble() * MAX_WEIGHT)
+		volumes[i] = int(random.nextDouble() * MAX_VOLUME)
 
 	# create range
 	fill = [COPIES_EACH + 1] * NUM_ITEMS
@@ -89,7 +89,7 @@ def optimize(n_items=40, copies_each=4, max_weight=50, max_vol=50):
 
 	# Randomized Hill Climbing
 	print("Running hill climbing...")
-	max_iters = 500
+	max_iters = 1000
 	for t in range(num_trials):
 		# For each trial, open a file to log the data
 		fname = outfile.replace('@ALG@', 'RHC').replace('@N@', str(t+1))
@@ -126,7 +126,7 @@ def optimize(n_items=40, copies_each=4, max_weight=50, max_vol=50):
 
 	# Simulated Annealing
 	print("Running simulated annealing...")
-	max_iters = 800
+	max_iters = 1000
 	for t in range(num_trials):
 		# Each iteration, the temp is cooled by the eqn T *= cooling_mult
 		for cooling_mult in [0.15, 0.35, 0.55, 0.75, 0.95]:
@@ -164,86 +164,86 @@ def optimize(n_items=40, copies_each=4, max_weight=50, max_vol=50):
 
 
 	# Genetic Algorithms
-	print("Running genetic algorithms...")
-	max_iters = 1000
-	for t in range(num_trials):
-		# pop: number in population
-		# mate: number in population to mate
-		# mutate: number in population to mutate
-		for pop in [100, 200, 400, 600, 1000]:
-			mate = int(0.5 * pop)
-			mutate = int(0.1 * pop)
-			# For each trial, open a file to log the data
-			fname = outfile.replace('@ALG@','GA{}'.format(pop)).replace('@N@', str(t+1))
-			with open(fname, 'w') as f:
-				f.write('iterations,fitness,time,fevals\n')
-
-			# Reinitialize problems per trial
-			ef = KnapsackEvaluationFunction(weights, volumes, KNAPSACK_VOLUME, copies)
-			odd = DiscreteUniformDistribution(ranges)
-			mf = DiscreteChangeOneMutation(ranges)
-			cf = UniformCrossOver()
-			gap = GenericGeneticAlgorithmProblem(ef, odd, mf, cf)
-			ga = StandardGeneticAlgorithm(pop, mate, mutate, gap)
-
-			# Iterate, logging every 10 steps
-			fit = FixedIterationTrainer(ga, 10)
-			cum_elapsed = 0
-			for i in range(0, max_iters + 1, 10):
-				# Train 10 iterations and clock time
-				start = clock()
-				fit.train()
-				elapsed = clock()-start
-				cum_elapsed += elapsed
-
-				fevals = ef.fevals                  # Number of function evaluations
-				score = ef.value(ga.getOptimal())   # Fitness score
-				ef.fevals -= 1                      # Reducing by one because getting the score counts as an eval
-
-				# Logging
-				st = '{},{},{},{}\n'.format(i, score, cum_elapsed, fevals)
-				# print st
-				with open(fname, 'a') as f:
-					f.write(st)
+	# print("Running genetic algorithms...")
+	# max_iters = 1000
+	# for t in range(num_trials):
+	# 	# pop: number in population
+	# 	# mate: number in population to mate
+	# 	# mutate: number in population to mutate
+	# 	for pop in [100, 200, 400, 600, 1000]:
+	# 		mate = int(0.5 * pop)
+	# 		mutate = int(0.1 * pop)
+	# 		# For each trial, open a file to log the data
+	# 		fname = outfile.replace('@ALG@','GA{}'.format(pop)).replace('@N@', str(t+1))
+	# 		with open(fname, 'w') as f:
+	# 			f.write('iterations,fitness,time,fevals\n')
+	#
+	# 		# Reinitialize problems per trial
+	# 		ef = KnapsackEvaluationFunction(weights, volumes, KNAPSACK_VOLUME, copies)
+	# 		odd = DiscreteUniformDistribution(ranges)
+	# 		mf = DiscreteChangeOneMutation(ranges)
+	# 		cf = UniformCrossOver()
+	# 		gap = GenericGeneticAlgorithmProblem(ef, odd, mf, cf)
+	# 		ga = StandardGeneticAlgorithm(pop, mate, mutate, gap)
+	#
+	# 		# Iterate, logging every 10 steps
+	# 		fit = FixedIterationTrainer(ga, 10)
+	# 		cum_elapsed = 0
+	# 		for i in range(0, max_iters + 1, 10):
+	# 			# Train 10 iterations and clock time
+	# 			start = clock()
+	# 			fit.train()
+	# 			elapsed = clock()-start
+	# 			cum_elapsed += elapsed
+	#
+	# 			fevals = ef.fevals                  # Number of function evaluations
+	# 			score = ef.value(ga.getOptimal())   # Fitness score
+	# 			ef.fevals -= 1                      # Reducing by one because getting the score counts as an eval
+	#
+	# 			# Logging
+	# 			st = '{},{},{},{}\n'.format(i, score, cum_elapsed, fevals)
+	# 			# print st
+	# 			with open(fname, 'a') as f:
+	# 				f.write(st)
 
 
 	# MIMIC
-	print("Running MIMIC...")
-	max_iters = 200
-	for t in range(num_trials):
-		for samples in [200, 400, 600, 800, 1000]:
-			keep = int(0.5 * samples)
-			# For each trial, open a file to log the data
-			fname = outfile.replace('@ALG@', 'MIMIC{}'.format(samples)).replace('@N@', str(t + 1))
-			with open(fname, 'w') as f:
-				f.write('iterations,fitness,time,fevals\n')
-
-			# Reinitialize problems per trial
-			ef = KnapsackEvaluationFunction(weights, volumes, KNAPSACK_VOLUME, copies)
-			odd = DiscreteUniformDistribution(ranges)
-			df = DiscreteDependencyTree(.1, ranges)
-			pop = GenericProbabilisticOptimizationProblem(ef, odd, df)
-			mimic = MIMIC(samples, keep, pop)
-
-			# Iterate, logging every 10 steps
-			fit = FixedIterationTrainer(mimic, 10)
-			cum_elapsed = 0
-			for i in range(0, max_iters, 10):
-				# Train 10 iterations and clock time
-				start = clock()
-				fit.train()
-				elapsed = clock() - start
-				cum_elapsed += elapsed
-
-				fevals = ef.fevals  # Number of function evaluations
-				score = ef.value(mimic.getOptimal())  # Fitness score
-				ef.fevals -= 1  # Reducing by one because getting the score counts as an eval
-
-				# Logging
-				st = '{},{},{},{}\n'.format(i, score, cum_elapsed, fevals)
-				# print st
-				with open(fname, 'a') as f:
-					f.write(st)
+	# print("Running MIMIC...")
+	# max_iters = 200
+	# for t in range(num_trials):
+	# 	for samples in [200, 400, 600, 800, 1000]:
+	# 		keep = int(0.5 * samples)
+	# 		# For each trial, open a file to log the data
+	# 		fname = outfile.replace('@ALG@', 'MIMIC{}'.format(samples)).replace('@N@', str(t + 1))
+	# 		with open(fname, 'w') as f:
+	# 			f.write('iterations,fitness,time,fevals\n')
+	#
+	# 		# Reinitialize problems per trial
+	# 		ef = KnapsackEvaluationFunction(weights, volumes, KNAPSACK_VOLUME, copies)
+	# 		odd = DiscreteUniformDistribution(ranges)
+	# 		df = DiscreteDependencyTree(.1, ranges)
+	# 		pop = GenericProbabilisticOptimizationProblem(ef, odd, df)
+	# 		mimic = MIMIC(samples, keep, pop)
+	#
+	# 		# Iterate, logging every 10 steps
+	# 		fit = FixedIterationTrainer(mimic, 10)
+	# 		cum_elapsed = 0
+	# 		for i in range(0, max_iters, 10):
+	# 			# Train 10 iterations and clock time
+	# 			start = clock()
+	# 			fit.train()
+	# 			elapsed = clock() - start
+	# 			cum_elapsed += elapsed
+	#
+	# 			fevals = ef.fevals  # Number of function evaluations
+	# 			score = ef.value(mimic.getOptimal())  # Fitness score
+	# 			ef.fevals -= 1  # Reducing by one because getting the score counts as an eval
+	#
+	# 			# Logging
+	# 			st = '{},{},{},{}\n'.format(i, score, cum_elapsed, fevals)
+	# 			# print st
+	# 			with open(fname, 'a') as f:
+	# 				f.write(st)
 
 	print("...Complete")
 

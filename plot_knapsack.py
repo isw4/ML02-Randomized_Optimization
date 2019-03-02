@@ -309,8 +309,8 @@ def best_knap_opt(save=False):
 	x = best_df[1]['time']
 	y = best_df[1]['fitness']
 	plt.plot(x, y, label=labels[1])
-	x = best_df[2]['time'].iloc[:30]
-	y = best_df[2]['fitness'].iloc[:30]
+	x = best_df[2]['time'].iloc[:]
+	y = best_df[2]['fitness'].iloc[:]
 	plt.plot(x, y, label=labels[2])
 	x = best_df[3]['time'].iloc[:2]
 	y = best_df[3]['fitness'].iloc[:2]
@@ -323,10 +323,11 @@ def best_knap_opt(save=False):
 if __name__ == "__main__":
 	save = True
 	all_trials_knap_rhc(save)
-	best_trials_knap_sa(save)
 	all_trials_knap_sa(save)
+	best_trials_knap_sa(save)
 	all_trials_knap_ga(save)
 	best_trials_knap_ga(save)
 	all_trials_knap_mimic(save)
 	best_trials_knap_mimic(save)
 	best_knap_opt(save)
+	# plt.show()
