@@ -123,14 +123,14 @@ def all_trials_tsp_mimic():
 	Plotting fitness vs iterations in all trials for the TSP problem using MIMIC
 	"""
 	gen_path = '.\TSP_logs\TSP_MIMIC@PAR@_@TRIAL@_LOG.txt'
-	for samples, keep in product([100, 200, 300], [50, 75]):
+	for samples in [300, 500, 700]:
 		df = [0 for _ in range(0, 5)]
 		for i in range(0, 5):
-			filepath = gen_path.replace("@TRIAL@", str(i + 1)).replace("@PAR@", "{}_{}".format(samples, keep))
+			filepath = gen_path.replace("@TRIAL@", str(i + 1)).replace("@PAR@", "{}".format(samples))
 			df[i] = pd.read_csv(filepath)
 
 		plt.figure()
-		plt.title("GA with mate {} and mutate {} for TSP".format(samples, keep))
+		plt.title("MIMIC with population {} for TSP".format(samples))
 		x = df[0].loc[:, 'iterations']
 		for i in range(0, 5):
 			y = df[i].loc[:, 'fitness']
@@ -145,8 +145,8 @@ def best_trials_tsp_mimic():
 	gen_path = '.\TSP_logs\TSP_MIMIC@PAR@_@TRIAL@_LOG.txt'
 	best = []
 	param_str = []
-	for samples, keep in product([100, 200, 300], [50, 75]):
-		param_str.append("{}_{}".format(samples, keep))  # Used later for labeling too
+	for samples in [300, 500, 700]:
+		param_str.append("{}".format(samples))  # Used later for labeling too
 		df = [0 for _ in range(0, 5)]
 		best_trial_ix = 0
 		best_fitness = -1
@@ -238,7 +238,6 @@ def best_tsp_opt():
 
 
 	# Fitness vs Iteration
-	print(best_df)
 	plt.figure()
 	plt.title("Fitness vs Iterations of each algorithm for TSP")
 	for i in range(0, 4):

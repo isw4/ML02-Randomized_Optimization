@@ -14,10 +14,10 @@ def all_trials_knap_rhc():
 		df[i] = pd.read_csv(filepath)
 
 	plt.figure()
-	plt.title("KNAP for TSP")
-	x = df[0].loc[:, 'iterations']
+	plt.title("RHC for knapsack problem")
+	x = df[0].loc[:80, 'iterations']
 	for i in range(0, 5):
-		y = df[i].loc[:, 'fitness']
+		y = df[i].loc[:80, 'fitness']
 		plt.plot(x, y)
 
 
@@ -33,10 +33,10 @@ def all_trials_knap_sa():
 			df[i] = pd.read_csv(filepath)
 
 		plt.figure()
-		plt.title("SA with cooling multipler {} for KNAP".format(cooling_mult))
-		x = df[0].loc[:, 'iterations']
+		plt.title("SA with cooling multipler {} for knapsack problem".format(cooling_mult))
+		x = df[0].loc[:80, 'iterations']
 		for i in range(0, 5):
-			y = df[i].loc[:, 'fitness']
+			y = df[i].loc[:80, 'fitness']
 			plt.plot(x, y)
 
 
@@ -61,42 +61,42 @@ def best_trials_knap_sa():
 		best.append(df[best_trial_ix])
 
 	plt.figure()
-	plt.title("Best trial for each SA using different cooling multipliers for TSP")
-	x = best[0].loc[:, 'iterations']
+	plt.title("Best trial for each SA using different cooling multipliers for knapsack problem")
+	x = best[0].loc[:80, 'iterations']
 	for i in range(0, 5):
-		y = best[i].loc[:, 'fitness']
+		y = best[i].loc[:80, 'fitness']
 		plt.plot(x, y, label=str(cooling_mult[i]))
 	plt.legend()
 
 
-def all_trials_tsp_ga():
+def all_trials_knap_ga():
 	"""
 	Plotting fitness vs iterations in all trials for the TSP problem using GA
 	"""
-	gen_path = '.\TSP_logs\TSP_GA@PAR@_@TRIAL@_LOG.txt'
-	for pop in [100, 500, 1000]:
+	gen_path = '.\KNAP_logs\KNAP_GA@PAR@_@TRIAL@_LOG.txt'
+	for pop in [100, 200, 400, 600, 1000]:
 		df = [0 for _ in range(0, 5)]
 		for i in range(0, 5):
 			filepath = gen_path.replace("@TRIAL@", str(i + 1)).replace("@PAR@", "{}".format(pop))
 			df[i] = pd.read_csv(filepath)
 
 		plt.figure()
-		plt.title("GA with population {} for TSP".format(pop))
-		x = df[0].loc[:, 'iterations']
+		plt.title("GA with population {} for knapsack problem".format(pop))
+		x = df[0].loc[:200, 'iterations']
 		for i in range(0, 5):
-			y = df[i].loc[:, 'fitness']
+			y = df[i].loc[:200, 'fitness']
 			plt.plot(x, y)
 
 
-def best_trials_tsp_ga():
+def best_trials_knap_ga():
 	"""
 	Plotting fitness vs iterations in the best trials for each param set
 	for the TSP problem using GA
 	"""
-	gen_path = '.\TSP_logs\TSP_GA@PAR@_@TRIAL@_LOG.txt'
+	gen_path = '.\KNAP_logs\KNAP_GA@PAR@_@TRIAL@_LOG.txt'
 	best = []
 	param_str = []
-	for pop in [100, 500, 1000]:
+	for pop in [100, 200, 400, 600, 1000]:
 		param_str.append("{}".format(pop))  # Used later for labeling too
 		df = [0 for _ in range(0, 5)]
 		best_trial_ix = 0
@@ -110,43 +110,43 @@ def best_trials_tsp_ga():
 		best.append(df[best_trial_ix])
 
 	plt.figure()
-	plt.title("Best trial for each GA using different population/mate/mutate numbers for TSP")
-	x = best[0].loc[:, 'iterations']
+	plt.title("Best trial for each GA using different population/mate/mutate numbers for knapsack problem")
+	x = best[0].loc[:200, 'iterations']
 	for i in range(0, len(param_str)):
-		y = best[i].loc[:, 'fitness']
+		y = best[i].loc[:200, 'fitness']
 		plt.plot(x, y, label=param_str[i])
 	plt.legend()
 
 
-def all_trials_tsp_mimic():
+def all_trials_knap_mimic():
 	"""
 	Plotting fitness vs iterations in all trials for the TSP problem using MIMIC
 	"""
-	gen_path = '.\TSP_logs\TSP_MIMIC@PAR@_@TRIAL@_LOG.txt'
-	for samples, keep in product([100, 200, 300], [50, 75]):
+	gen_path = '.\KNAP_logs\KNAP_MIMIC@PAR@_@TRIAL@_LOG.txt'
+	for samples in [200, 400, 600, 800, 1000]:
 		df = [0 for _ in range(0, 5)]
 		for i in range(0, 5):
-			filepath = gen_path.replace("@TRIAL@", str(i + 1)).replace("@PAR@", "{}_{}".format(samples, keep))
+			filepath = gen_path.replace("@TRIAL@", str(i + 1)).replace("@PAR@", "{}".format(samples))
 			df[i] = pd.read_csv(filepath)
 
 		plt.figure()
-		plt.title("GA with mate {} and mutate {} for TSP".format(samples, keep))
-		x = df[0].loc[:, 'iterations']
+		plt.title("MIMIC with population {} for knapsack problem".format(samples))
+		x = df[0].loc[:20, 'iterations']
 		for i in range(0, 5):
-			y = df[i].loc[:, 'fitness']
+			y = df[i].loc[:20, 'fitness']
 			plt.plot(x, y)
 
 
-def best_trials_tsp_mimic():
+def best_trials_knap_mimic():
 	"""
 	Plotting fitness vs iterations in the best trials for each param set
 	for the TSP problem using MIMIC
 	"""
-	gen_path = '.\TSP_logs\TSP_MIMIC@PAR@_@TRIAL@_LOG.txt'
+	gen_path = '.\KNAP_logs\KNAP_MIMIC@PAR@_@TRIAL@_LOG.txt'
 	best = []
 	param_str = []
-	for samples, keep in product([100, 200, 300], [50, 75]):
-		param_str.append("{}_{}".format(samples, keep))  # Used later for labeling too
+	for samples in [200, 400, 600, 800, 1000]:
+		param_str.append("{}".format(samples))  # Used later for labeling too
 		df = [0 for _ in range(0, 5)]
 		best_trial_ix = 0
 		best_fitness = -1
@@ -159,15 +159,15 @@ def best_trials_tsp_mimic():
 		best.append(df[best_trial_ix])
 
 	plt.figure()
-	plt.title("Best trial for each MIMIC using different sample/keep numbers for TSP")
-	x = best[0].loc[:, 'iterations']
+	plt.title("Best trial for each MIMIC using different sample/keep numbers for knapsack problem")
+	x = best[0].loc[:20, 'iterations']
 	for i in range(0, len(param_str)):
-		y = best[i].loc[:, 'fitness']
+		y = best[i].loc[:20, 'fitness']
 		plt.plot(x, y, label=param_str[i])
 	plt.legend()
 
 
-def best_tsp_opt():
+def best_knap_opt():
 	"""
 	Plotting the best trials between all algorithms:
 	fitness vs iterations
@@ -179,7 +179,7 @@ def best_tsp_opt():
 	labels = ['', '', '', '']
 
 	# Best RHC
-	gen_path = '.\TSP_logs\TSP_RHC_@TRIAL@_LOG.txt'
+	gen_path = '.\KNAP_logs\KNAP_RHC_@TRIAL@_LOG.txt'
 	best_fitness = -1
 	df = [0 for _ in range(0, 5)]
 	for i in range(0, 5):
@@ -191,7 +191,7 @@ def best_tsp_opt():
 			labels[0] = "RHC"
 
 	# Best SA
-	gen_path = '.\TSP_logs\TSP_SA@COOLING@_@TRIAL@_LOG.txt'
+	gen_path = '.\KNAP_logs\KNAP_SA@COOLING@_@TRIAL@_LOG.txt'
 	best_fitness = -1
 	for cooling_mult in [0.15, 0.35, 0.55, 0.75, 0.95]:
 		par = str(cooling_mult)
@@ -205,9 +205,9 @@ def best_tsp_opt():
 				labels[1] = "SA_{}".format(par)
 
 	# Best GA
-	gen_path = '.\TSP_logs\TSP_GA@PAR@_@TRIAL@_LOG.txt'
+	gen_path = '.\KNAP_logs\KNAP_GA@PAR@_@TRIAL@_LOG.txt'
 	best_fitness = -1
-	for pop in [100, 500, 1000]:
+	for pop in [100, 200, 400, 600, 1000]:
 		mate = 0.5 * pop
 		mutate = 0.1 * pop
 		par = "{}".format(pop)
@@ -223,9 +223,9 @@ def best_tsp_opt():
 				print(labels[2])
 
 	# Best MIMIC
-	gen_path = '.\TSP_logs\TSP_MIMIC@PAR@_@TRIAL@_LOG.txt'
+	gen_path = '.\KNAP_logs\KNAP_MIMIC@PAR@_@TRIAL@_LOG.txt'
 	best_fitness = -1
-	for samples in [300, 500, 700]:
+	for samples in [200, 400, 600, 800, 1000]:
 		par = "{}".format(samples)
 		df = [0 for _ in range(0, 5)]
 		for i in range(0, 5):
@@ -238,7 +238,6 @@ def best_tsp_opt():
 
 
 	# Fitness vs Iteration
-	print(best_df)
 	plt.figure()
 	plt.title("Fitness vs Iterations of each algorithm for TSP")
 	for i in range(0, 4):
@@ -258,11 +257,11 @@ def best_tsp_opt():
 
 if __name__ == "__main__":
 	# all_trials_knap_rhc()
-	best_trials_knap_sa()
-	all_trials_knap_sa()
-	# all_trials_tsp_sa()
-	# best_trials_tsp_sa()
-	# all_trials_tsp_ga()
-	# best_trials_tsp_ga()
-	# best_tsp_opt()
+	# best_trials_knap_sa()
+	# all_trials_knap_sa()
+	# all_trials_knap_ga()
+	# best_trials_knap_ga()
+	# all_trials_knap_mimic()
+	# best_trials_knap_mimic()
+	best_knap_opt()
 	plt.show()
