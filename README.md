@@ -19,6 +19,11 @@ TSP_logs/   Contains the logs of the traveling salesman problem optimizations in
 
 2)  Make sure to have jython installed (https://www.jython.org/)
 
+3)  Add the *absolute* path to the ABAGAIL jar file to "ABAGAIL_absolute_path.txt". e.g.
+    ~~~
+    C:/Documents/ML02-Randomized_Optimization/ABAGAIL/ABAGAIL.jar
+    ~~~
+
 
 ## Setup to plot the data from the logs
 
